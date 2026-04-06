@@ -88,7 +88,7 @@ The Multi-Agent Research Assistant is a LangGraph-powered application that orche
 ```bash
 # 1. Clone the repository
 git clone https://github.com/navaneethsanil/multi-agent-research-assistant.git
-cd research-assistant
+cd multi-agent-research-assistant
 
 # 2. Create and activate a virtual environment
 python -m venv .venv
