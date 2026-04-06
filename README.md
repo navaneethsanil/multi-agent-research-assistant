@@ -123,7 +123,7 @@ Copy `.env.example` to `.env` and populate your credentials:
 ```bash
 cp .env.example .env
 ```
-# Prerequisites note: Ensure your Mistral API key and Tavily API key are configured before running the application.
+## Prerequisites note: Ensure your Mistral API key and Tavily API key are configured before running the application.
 ```env
 # .env
 
