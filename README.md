@@ -147,7 +147,7 @@ TAVILY_API_KEY=your-tavily-api-key
 ## Usage
 
 ```bash
-streamlit run app.py
+uv run streamlit run app.py
 ```
 
 1. Open `http://localhost:8501` in your browser.
