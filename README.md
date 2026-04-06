@@ -9,7 +9,6 @@ A parallel multi-agent research pipeline that combines real-time web search and 
 - [Overview](#overview)
 - [Features](#features)
 - [System Architecture](#system-architecture)
-- [Project Structure](#project-structure)
 - [Prerequisites](#prerequisites)
 - [Installation & Setup](#installation--setup)
 - [Configuration](#configuration)
@@ -73,28 +72,6 @@ The Multi-Agent Research Assistant is a LangGraph-powered application that orche
 | `web_search_result` | `str` | Summarized output from web search agent  |
 | `arxiv_result`      | `str` | Aggregated ArXiv paper content           |
 | `response`          | `str` | Final synthesized answer                 |
-
----
-
-## Project Structure
-
-```
-research-assistant/
-├── agents/
-│   ├── __init__.py
-│   ├── web_search.py       # web_search_agent node (Tavily + ReAct)
-│   ├── arxiv.py            # arxiv_agent node (ArxivRetriever)
-│   └── synthesizer.py      # synthesizer_agent node (LLM chain)
-├── graph/
-│   ├── __init__.py
-│   ├── state.py            # AgentState TypedDict
-│   └── workflow.py         # StateGraph definition and compilation
-├── app.py                  # Streamlit UI — animated pipeline frontend
-├── utils.py                # initialize_llm() helper
-├── requirements.txt
-├── .env.example
-└── README.md
-```
 
 ---
 
