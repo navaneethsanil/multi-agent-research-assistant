@@ -26,7 +26,7 @@ The Multi-Agent Research Assistant is a LangGraph-powered application that orche
 
 ## Features
 
-- **Parallel agent execution** — web search and ArXiv retrieval run concurrently via LangGraph 
+- **Parallel agent execution** — web search and ArXiv retrieval run concurrently via LangGraph
 - **ReAct web search** — Tavily-backed agent with grounded, fact-only summarization
 - **ArXiv academic retrieval** — fetches and formats up to 2 research paper abstracts
 - **LLM synthesis** — structured prompt merges both sources into a scannable report
@@ -78,8 +78,9 @@ The Multi-Agent Research Assistant is a LangGraph-powered application that orche
 ## Prerequisites
 
 - Python **3.10+**
+- [uv](https://docs.astral.sh/uv/) package manager
 - A [Tavily API key](https://tavily.com/) for web search
-- An [Anthropic](https://console.anthropic.com/) **or** [OpenAI](https://platform.openai.com/) API key for the LLM
+- A [Mistral API key](https://console.mistral.ai/) for the LLM
 
 ---
 
@@ -91,11 +92,11 @@ git clone https://github.com/navaneethsanil/multi-agent-research-assistant.git
 cd multi-agent-research-assistant
 
 # 2. Create and activate a virtual environment
-python -m venv .venv
+uv venv
 source .venv/bin/activate      # Windows: .venv\Scripts\activate
 
 # 3. Install dependencies
-pip install -r requirements.txt
+uv pip install -r requirements.txt
 ```
 
 ### `requirements.txt`
@@ -123,18 +124,20 @@ Copy `.env.example` to `.env` and populate your credentials:
 ```bash
 cp .env.example .env
 ```
-## Prerequisites note: Ensure your Mistral API key and Tavily API key are configured before running the application.
+
+> **Prerequisites note:** Ensure your Mistral API key and Tavily API key are configured before running the application.
+
 ```env
 # .env
 
-# LLM provider — set one
-MISTRAL_API_KEY=sk-ant-...
+# LLM provider
+MISTRAL_API_KEY=your-mistral-api-key
 
 # Model name
 MODEL_NAME=mistral-small-latest
 
 # Web search
-TAVILY_API_KEY=tvly-...
+TAVILY_API_KEY=your-tavily-api-key
 ```
 
 > **Note:** `utils.py → initialize_llm()` reads these variables and returns the appropriate LangChain chat model. Update this function if you switch providers.
@@ -159,15 +162,15 @@ streamlit run app.py
 
 | Stage | Agent | Tool | Output key |
 |-------|-------|------|------------|
-| **** | `web_search_agent` | Tavily + ReAct LLM | `web_search_result` |
-| **** | `arxiv_agent` | `ArxivRetriever` | `arxiv_result` |
-| **** | `synthesizer_agent` | LLM chain | `response` |
+| **Fan-out** | `web_search_agent` | Tavily + ReAct LLM | `web_search_result` |
+| **Fan-out** | `arxiv_agent` | `ArxivRetriever` | `arxiv_result` |
+| **Fan-in** | `synthesizer_agent` | LLM chain | `response` |
 
 ### 1. `web_search_agent`
-Invokes a `create_react_agent` loop backed by `TavilySearch(max_results=5)`. Extracts the last `AIMessage` from the ReAct trajectory and truncates output to 4 000 characters.
+Invokes a `create_react_agent` loop backed by `TavilySearch(max_results=5)`. Extracts the last `AIMessage` from the ReAct trajectory and truncates output to 4,000 characters.
 
 ### 2. `arxiv_agent`
-Uses `ArxivRetriever(load_max_docs=2, get_full_documents=False)` to fetch paper abstracts. Each document is formatted with its title, authors, publish date, and ArXiv ID, then capped at 4 000 characters.
+Uses `ArxivRetriever(load_max_docs=2, get_full_documents=False)` to fetch paper abstracts. Each document is formatted with its title, authors, publish date, and ArXiv ID, then capped at 4,000 characters.
 
 ### 3. `synthesizer_agent`
 Feeds both results into a `ChatPromptTemplate` that enforces a structured output format (Summary → Key Findings → Technical Deep Dive → Conclusion). The chain is built lazily via `@lru_cache` to avoid import-time failures.
@@ -185,6 +188,7 @@ The UI calls `graph.stream(state, stream_mode="updates")` and re-renders the tim
 | LLM abstraction | [LangChain](https://github.com/langchain-ai/langchain) |
 | Web search | [Tavily](https://tavily.com/) via `langchain-tavily` |
 | Academic search | [ArXiv](https://arxiv.org/) via `langchain-community` |
-| LLM backend | Anthropic Claude / OpenAI GPT |
+| LLM backend | [Mistral AI](https://mistral.ai/) via `langchain-mistralai` |
 | Frontend | [Streamlit](https://streamlit.io/) |
+| Package manager | [uv](https://docs.astral.sh/uv/) |
 | Language | Python 3.10+ |
