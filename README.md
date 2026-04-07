@@ -120,7 +120,7 @@ cd multi-agent-research-assistant
 
 # 2. Create and activate a virtual environment
 uv venv
-source .venv/bin/activate      # Windows: .venv\Scripts\activate
+source .venv/bin/activate      # Windows: source .venv/Scripts/activate
 
 # 3. Install dependencies
 uv pip install -r requirements.txt
