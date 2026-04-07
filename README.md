@@ -84,6 +84,33 @@ The Multi-Agent Research Assistant is a LangGraph-powered application that orche
 
 ---
 
+## Prerequisite
+
+Before proceeding with the installation, ensure that the `uv` package manager is already installed on your system.
+
+You can verify this by running:
+
+```bash
+uv --version
+````
+
+If the command does not return a version number, install `uv` using the appropriate method below:
+
+```bash
+# For Windows (PowerShell)
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# For macOS (Terminal)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+After installation, restart your terminal and verify again:
+
+```bash
+uv --version
+```
+
+
 ## Installation & Setup
 
 ```bash
